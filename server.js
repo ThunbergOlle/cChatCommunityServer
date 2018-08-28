@@ -3,6 +3,8 @@ const serverName = "Server_Europe_1";
 const io = require('socket.io');
 const time = require('node-get-time');
 const socket = io.listen(4000).sockets;
+const readline = require('readline');
+const emitStatus = require('./modules/emitStatus.js');
 
 // OWN MODULES OR CONFIGS. These files could be found inside the modules folder or this current folder.
 const settings = require('./modules/settings');
@@ -13,12 +15,19 @@ const register = require('./modules/registerServer');
 
 let online = [];
 let onlineAmount = 0;
-
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+process.stdin.on('keypress', (str, key) => {
+  if (key.ctrl && key.name === 'c') {
+    emitStatus(false);
+    process.exit();
+  }
+});
 mainServerContact((data) => {
     console.log(data);
 });
 register((data) => {
-    console.log(data);
+    emitStatus(true);
 });
 // Check if someone connected to the servewr with the correct ports.
 socket.on('connection', (socket) => {
