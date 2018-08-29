@@ -5,8 +5,11 @@ const time = require('node-get-time');
 const socket = io.listen(4000).sockets;
 const readline = require('readline');
 const emitStatus = require('./modules/emitStatus.js');
+const uuid = require('uuid/v1');
 
 // OWN MODULES OR CONFIGS. These files could be found inside the modules folder or this current folder.
+const serverjson = require('./serverFiles/server.json');
+const serverID = uuid();
 const settings = require('./modules/settings');
 const admins = require('./admins.json');
 const isAdmin = require('./modules/isAdmin');
@@ -19,15 +22,19 @@ readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.on('keypress', (str, key) => {
   if (key.ctrl && key.name === 'c') {
-    emitStatus(false);
-    process.exit();
+    emitStatus(false, serverID, serverjson.ip);
+    console.log("Shutting down..");
+    exit = () => {
+        process.exit();
+    }
+    setTimeout(exit, 1000);
   }
 });
 mainServerContact((data) => {
     console.log(data);
 });
 register((data) => {
-    emitStatus(true);
+    emitStatus(true, serverID, serverjson.ip);
 });
 // Check if someone connected to the servewr with the correct ports.
 socket.on('connection', (socket) => {

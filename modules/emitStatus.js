@@ -3,12 +3,14 @@ const querystring = require('querystring');
 const config = require('../config.json');
 // Script for emitting data when it's online
 // Input will be either TRUE or FALSE
-module.exports = (online) => {  
-    
+module.exports = (online, serverID, serverIP) => {  
+    console.log('Emitting..')
     let mainIP = config.mainserver
     let postData = querystring.stringify({
         verified: "true",
-        emitStatus: online
+        emitStatus: online,
+        serverID: serverID,
+        serverIP: serverIP
      });
     let options = {
         hostname: mainIP,
@@ -24,7 +26,7 @@ module.exports = (online) => {
         res.setEncoding('utf8');
 
         res.on('data', function (chunk) {
-                callback(chunk);
+            console.log(chunk);
         });
 
         res.on('end', function () {
