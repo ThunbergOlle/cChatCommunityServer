@@ -1,6 +1,6 @@
 // The module for handling messages with "/" character in the beginning.
 
-const Commands = ['help', 'online','ban [ID]','getids','getid [USERNAME]']
+const Commands = ['help', 'online','ban [ID]','getids','getid [USERNAME]','leave']
 const server = require('../server.js');
 
 const isAdmin = require('./isAdmin');
@@ -46,6 +46,5 @@ module.exports = (message, onlineAmount, online, id, socket, res) => {
             res(idForUser);
         }
     } else{
-        res("You don't have permissions to execute that command!");
     }
 }
