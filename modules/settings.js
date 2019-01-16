@@ -8,10 +8,12 @@ module.exports = (message, onlineAmount, online, id, socket, res) => {
     // Get the message
     if(message === "/help"){
         res(Commands);
+        return;
     }
     if (message === "/online" && onlineAmount !== undefined){
         let send = "There is " + onlineAmount + " people here.";
         res(send);
+        return;
     }
     else if(isAdmin(id)){
         // Kick players from the current session (Using socket ids.)
@@ -21,6 +23,7 @@ module.exports = (message, onlineAmount, online, id, socket, res) => {
                 if(online[i].uid === target){
                     res("You have been kicked!");
                     socket.disconnect(true);
+                    return;
                 }
             }
         }
@@ -32,6 +35,7 @@ module.exports = (message, onlineAmount, online, id, socket, res) => {
             }
             console.log(onlineIDS);
             res(onlineIDS);
+            return;
         }
         // Get the id of a speciefic player that you then can use to ban or kick the member.
         if(message.substr(0,7) === "/getid "){
@@ -44,7 +48,10 @@ module.exports = (message, onlineAmount, online, id, socket, res) => {
                 }
             }
             res(idForUser);
+            return;
         }
     } else{
+        res("You don't have access to that command! :(");
+        return;
     }
 }

@@ -34,7 +34,7 @@ module.exports = (online, serverID, serverIP) => {
     });
 
     req.on('error', function (e) {
-        callback(e);
+        console.error(e);
     });
     req.write(postData);
     req.end();

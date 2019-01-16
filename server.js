@@ -34,6 +34,7 @@ mainServerContact((data) => {
     console.log(data);
 });
 register((data) => {
+    console.log(data);
     emitStatus(true, serverID, serverjson.ip);
 });
 // Check if someone connected to the servewr with the correct ports.
